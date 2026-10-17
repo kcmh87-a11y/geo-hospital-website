@@ -1,0 +1,12 @@
+---
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
+import { site } from '../config/site';
+---
+<footer class="site-footer">
+  <div class="container footer-main">
+    <div><Brand light /><p>병원의 전문성을, AI가 이해하는 언어로.</p></div>
+    <div class="footer-links"><a href="/#about">온율 소개</a><a href="/#services">전문 서비스</a><a href="/insights/">인사이트</a><a href="/contact/">문의하기 <Icon name="diagonal" size={14} /></a></div>
+  </div>
+  <div class="container footer-bottom"><span>© {new Date().getFullYear()} {site.englishName}. All rights reserved.</span><div><a href="/privacy/">개인정보 안내</a><span>미래의 전문성을 그린 연습용 브랜드 사이트입니다.</span></div></div>
+</footer>

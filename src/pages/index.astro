@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { projects } from '../data/projects';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('insights')).sort((a,b) => b.data.date.valueOf()-a.data.date.valueOf());
+const services = [
+  { icon: 'compass', title: '병원 GEO/AIO 전략 수립', en: 'GEO & AIO STRATEGY', text: '병원의 진료 분야와 정보 현황을 살펴보고, AI 검색 환경에 맞는 콘텐츠의 방향을 설계합니다.' },
+  { icon: 'sparkle', title: 'AI 검색 친화형 콘텐츠 기획', en: 'CONTENT PLANNING', text: '환자가 실제로 묻는 질문을 중심으로, 맥락이 분명하고 이해하기 쉬운 콘텐츠를 기획합니다.' },
+  { icon: 'pen', title: '병원 전문 블로그 원고 제작', en: 'MEDICAL COPYWRITING', text: '의료정보의 정확성과 독자의 눈높이를 함께 고려해, 병원의 전문성을 담은 원고를 만듭니다.' },
+  { icon: 'window', title: '홈페이지 콘텐츠 최적화', en: 'WEBSITE CONTENT', text: '진료 소개부터 자주 묻는 질문까지. 사람과 검색 시스템이 읽기 쉬운 정보 구조를 정리합니다.' },
+  { icon: 'chart', title: '검색 및 AI 인용 현황 점검', en: 'SEARCH & AI MONITORING', text: '검색과 AI 답변에서 병원 정보가 어떻게 나타나는지 확인하고, 개선이 필요한 지점을 찾습니다.' },
+  { icon: 'people', title: '광고대행사 콘텐츠 제작 협업', en: 'AGENCY PARTNERSHIP', text: '정기 원고 제작부터 개별 프로젝트까지, 대행사의 운영 방식에 맞춰 유연하게 협업합니다.' },
+];
+---
+<Layout>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="hero-kicker"><span></span> 병원 GEO · AIO 콘텐츠 파트너</div>
+        <h1 id="hero-title">검색의 시대를 넘어,<br /><span class="gold-text">AI가 이해하는</span><br />병원의 가치.</h1>
+        <p class="hero-description">변화하는 검색 환경, 달라져야 할 병원 콘텐츠.<br />병원의 전문성과 신뢰를<br class="mobile-only" /> AI가 이해할 수 있는 정보로 설계합니다.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#services">GEO 마케팅 알아보기 <Icon name="diagonal" size={18} /></a><a class="text-link" href="#portfolio">포트폴리오 보기 <Icon name="arrow" size={19} /></a></div>
+        <div class="hero-search"><span class="hero-search-label">새로운 검색의 접점</span><span><Icon name="sparkle" size={16} /> ChatGPT</span><span class="google-word"><b>G</b> Google AI</span><span class="perplexity-word"><Icon name="globe" size={16} /> Perplexity</span></div>
+      </div>
+      <div class="hero-art">
+        <div class="hero-image-wrap"><img class="hero-image" src="/images/clinic-hero.webp" width="1200" height="800" alt="자연광과 우드, 식물이 어우러진 차분한 병원 리셉션의 콘셉트 이미지" fetchpriority="high" /><span class="photo-caption">A NEW PERSPECTIVE ON HEALTHCARE</span></div>
+        <svg class="hero-star" width="82" height="82" viewBox="0 0 82 82" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="1.4"><path d="M41 1v80M1 41h80M12.7 12.7l56.6 56.6M12.7 69.3l56.6-56.6M25.7 4l30.6 74M4 25.7l74 30.6M4 56.3l74-30.6M25.7 78 56.3 4" /></g><circle cx="41" cy="41" r="6" fill="#f7f7f3" stroke="currentColor" /></svg>
+        <div class="hero-note"><div class="note-line"></div><span>From search,<br /><em>to understanding.</em></span><p>검색되는 병원에서,<br />이해되는 병원으로.</p><Icon name="diagonal" size={19} /></div>
+        <span class="hero-side-label">STRATEGY. CONTENT. TRUST.</span>
+      </div>
+    </div>
+    <div class="container hero-foot"><a href="#about" class="scroll-hint"><span class="scroll-line"></span> SCROLL TO EXPLORE</a><span>의료의 전문성과 AI 검색 사이, 온율이 연결합니다.</span><span class="hero-edition">SEO → GEO → NEXT</span></div>
+  </section>
+
+  <div class="expertise-strip"><div class="container expertise-inner"><div><span>01</span><strong>Healthcare Focus</strong><small>병원에 대한 깊은 이해</small></div><div><span>02</span><strong>Thoughtful Content</strong><small>근거를 담은 콘텐츠</small></div><div><span>03</span><strong>Meaningful Partnership</strong><small>함께 성장하는 파트너십</small></div></div></div>
+
+  <section id="about" class="section about-section" aria-labelledby="about-title"><div class="container">
+    <div class="section-label"><span class="eyebrow">01 — ABOUT ONYUL</span><span class="small-label">전문성을 전하는 새로운 방식</span></div>
+    <div class="about-grid"><div><h2 id="about-title">좋은 진료의 가치가<br /><span class="muted-serif">좋은 정보로</span> 전해지도록.</h2><div class="about-signature"><span class="serif">Clarity creates trust.</span><span>온율의 콘텐츠 철학</span></div></div><div class="about-content"><p class="lead">환자는 더 나은 답을 찾고,<br />AI는 더 명확한 정보를 읽습니다.</p><p>온율은 병원과 환자, 그리고 AI 검색 사이의 정보 간격을 좁히는 GEO/AIO 콘텐츠 스튜디오입니다. 치과·정형외과·내과·한의원·피부과 등 개인의원의 전문성을 이해하기 쉬운 콘텐츠로 정리합니다.</p><p>순위만을 위한 문장보다 정확한 정보의 구조를, 과장된 약속보다 오래 쌓이는 신뢰를 생각합니다. 진료의 깊이가 콘텐츠에서도 온전히 드러날 수 있도록 돕겠습니다.</p><div class="practice-note"><span class="small-dot"></span>온율은 미래의 전문성을 가정한 개인 브랜딩 연습 프로젝트입니다.</div></div></div>
+  </div></section>
+
+  <section id="services" class="section services-section" aria-labelledby="service-title"><div class="container">
+    <div class="section-heading"><div><span class="eyebrow">02 — WHAT WE DO</span><h2 id="service-title">전략부터 한 편의 원고까지,<br />병원에 필요한 콘텐츠의 모든 과정.</h2></div><p class="section-intro">병원의 상황에 맞는 방향을 찾고,<br />지속 가능한 콘텐츠 자산을 함께 만듭니다.</p></div>
+    <div class="services-grid">{services.map((service,index) => <a href={`/contact/?service=${index + 1}`} class="service-card" data-reveal><div class="service-card-top"><Icon name={service.icon} size={30} /><span>0{index+1}</span></div><span class="service-english">{service.en}</span><h3>{service.title}</h3><p>{service.text}</p><span class="service-card-link">서비스 상담하기 <Icon name="diagonal" size={17} /></span></a>)}</div>
+    <p class="service-footnote"><Icon name="shield" size={15} /> 의료정보 콘텐츠는 게시 전 의료진 검토 및 관련 법규·의료광고 심의 대상 여부 확인을 전제로 합니다.</p>
+  </div></section>
+
+  <section id="why-geo" class="section why-section" aria-labelledby="why-title"><div class="container">
+    <div class="why-heading"><div><span class="eyebrow">03 — WHY GEO, WHY NOW</span><h2 id="why-title">검색창의 질문이,<br /><span>AI와의 대화로 바뀌고 있습니다.</span></h2></div><p>이제 콘텐츠는 검색 결과에 나열되는 것을 넘어,<br />답변의 맥락 안에서도 이해될 준비가 필요합니다.</p></div>
+    <div class="search-comparison"><div class="comparison-card"><div class="comparison-label"><Icon name="search" size={21} /><span>SEO</span><small>검색 결과의 시대</small></div><div class="search-mock" aria-hidden="true"><span>우리 동네 치과</span><Icon name="search" size={16} /></div><h3>“어디에 정보가 있을까?”</h3><p>검색 결과에서 웹사이트를 찾고,<br />여러 페이지를 방문해 정보를 비교합니다.</p><div class="comparison-bottom">키워드 · 검색 접근성 · 페이지 최적화</div></div><div class="comparison-transition" aria-hidden="true"><Icon name="arrow" size={24} /></div><div class="comparison-card comparison-geo"><div class="comparison-label"><Icon name="sparkle" size={21} /><span>GEO / AIO</span><small>답변과 이해의 시대</small></div><div class="ai-mock" aria-hidden="true"><Icon name="sparkle" size={20} /><span>치과를 선택할 때 무엇을 확인하면 좋을까요?</span></div><h3>“내 질문에 어떤 답을 줄까?”</h3><p>AI가 질문의 의도를 해석하고,<br />다양한 출처의 정보를 종합해 답변합니다.</p><div class="comparison-bottom">명확한 맥락 · 신뢰할 수 있는 정보 · 구조화</div></div></div>
+    <div class="why-takeaway"><span class="serif">Built on SEO.<br /><em>Ready for AI.</em></span><div><strong>SEO의 탄탄한 기반 위에, AI가 읽을 수 있는 정보의 구조를.</strong><p>GEO는 SEO를 대체하는 마법이 아닙니다. 정확한 정보와 사용자 중심의 콘텐츠를 바탕으로<br class="desktop-only" /> 새로운 검색 환경에 대응하는 과정입니다. 특정 검색 노출이나 AI 인용을 보장하지 않습니다.</p></div></div>
+  </div></section>
+
+  <section id="portfolio" class="section portfolio-section" aria-labelledby="portfolio-title"><div class="container">
+    <div class="section-heading"><div><span class="eyebrow">04 — SELECTED PROJECTS</span><h2 id="portfolio-title">진료의 차이를 이해하면,<br />콘텐츠의 방향도 달라집니다.</h2></div><span class="outline-tag">SAMPLE PORTFOLIO <span>가상 프로젝트</span></span></div>
+    <div class="projects-grid">{projects.map(project => <a class="project-card" href={`/projects/${project.slug}/`} data-reveal><div class="project-image"><img src={project.image} alt={project.imageAlt} width="640" height="480" loading="lazy" /><span class="project-image-badge">가상 프로젝트</span><span class="project-arrow"><Icon name="diagonal" size={24} /></span></div><div class="project-meta"><span>{project.english}</span><span>0{project.number.slice(-1)}</span></div><h3>{project.title}</h3><p>{project.summary}</p><div class="tags">{project.tags.map(tag=><span>{tag}</span>)}</div></a>)}</div>
+    <p class="portfolio-disclaimer">모든 사례는 콘텐츠 전략을 보여주기 위한 가상 기획입니다. 실제 고객사, 진행 실적 또는 성과를 의미하지 않습니다. 이미지는 콘셉트 연출 이미지입니다.</p>
+  </div></section>
+
+  <section id="insights" class="section insights-section" aria-labelledby="insights-title"><div class="container">
+    <div class="section-heading"><div><span class="eyebrow">05 — IDEAS & INSIGHTS</span><h2 id="insights-title">변화의 흐름을 읽고,<br />다음 콘텐츠를 생각합니다.</h2></div><a class="text-link" href="/insights/">모든 인사이트 보기 <Icon name="arrow" size={20} /></a></div>
+    <div class="articles-grid">{posts.slice(0,3).map((post,index)=><ArticleCard post={post} featured={index===0} />)}</div>
+  </div></section>
+
+  <section id="partnership" class="section partnership-section" aria-labelledby="partnership-title"><div class="container partnership-grid"><div><span class="eyebrow">06 — GROW TOGETHER</span><h2 id="partnership-title">대행사의 실행력에,<br />콘텐츠의 전문성을 더합니다.</h2><p>병원 전문 광고대행사와 디지털 마케팅 회사의<br />든든한 외부 GEO/AIO 콘텐츠 파트너가 되겠습니다.</p><a href="/contact/?type=agency" class="text-link">파트너십 이야기하기 <Icon name="diagonal" size={19} /></a><span class="partnership-serif serif" aria-hidden="true">Better, together.</span></div><div class="partnership-list">{[{n:'01',title:'정기 원고 제작',text:'월별 주제와 운영 일정에 맞춘 지속적인 콘텐츠 제작'},{n:'02',title:'콘텐츠 전략 · 기획',text:'진료별 주제 설계부터 채널에 맞는 콘텐츠 캘린더까지'},{n:'03',title:'프로젝트 단위 협업',text:'홈페이지 개편, 신규 진료 콘텐츠 등 목적에 맞춘 참여'}].map(item=><div class="partnership-item"><span>{item.n}</span><div><h3>{item.title}</h3><p>{item.text}</p></div><Icon name="diagonal" size={20} /></div>)}</div></div></section>
+  <ContactCTA />
+</Layout>

@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('insights')).sort((a,b) => b.data.date.valueOf()-a.data.date.valueOf());
+const categories = ['전체', 'GEO · AIO', '콘텐츠 전략', '병원 마케팅'];
+---
+<Layout title="인사이트 — 병원 GEO·AI 검색·콘텐츠 전략 | 온율 ONYUL" description="병원 GEO/AIO, AI 검색 트렌드, 환자 중심 콘텐츠와 광고대행사 협업에 관한 온율의 기획 칼럼을 읽어보세요.">
+  <section class="page-heading"><div class="container"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><Icon name="chevron" size={12} /><span aria-current="page">인사이트</span></nav><span class="eyebrow">IDEAS & INSIGHTS</span><h1>변화를 읽는 시선,<br />콘텐츠를 만드는 생각.</h1><p>병원 GEO부터 AI 검색, 콘텐츠 전략까지.<br />더 좋은 질문과 더 명확한 정보를 위한 온율의 기록입니다.</p></div></section>
+  <section class="section"><div class="container"><div class="filter-bar" role="group" aria-label="칼럼 분야 선택">{categories.map((category,index)=><button type="button" class="filter-button" data-filter={category} aria-pressed={index===0}>{category}</button>)}<span class="filter-count" aria-live="polite">총 <span id="post-count">{posts.length}</span>편의 인사이트</span></div><div class="insight-list">{posts.map(post=><div data-category={post.data.category}><ArticleCard post={post} featured={post.data.featured} /></div>)}</div></div></section>
+  <ContactCTA />
+</Layout>
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+  buttons.forEach(button => button.addEventListener('click', () => {
+    const category = button.dataset.filter;
+    buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    let count = 0;
+    cards.forEach(card => { card.hidden = category !== '전체' && card.dataset.category !== category; if (!card.hidden) count++; });
+    const counter = document.querySelector('#post-count'); if (counter) counter.textContent = String(count);
+  }));
+</script>

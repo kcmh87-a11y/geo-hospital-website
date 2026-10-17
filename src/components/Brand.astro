@@ -1,0 +1,8 @@
+---
+interface Props { light?: boolean; }
+const { light = false } = Astro.props;
+---
+<a href="/" class:list={['brand', { 'brand-light': light }]} aria-label="온율 홈">
+  <svg class="brand-symbol" width="38" height="42" viewBox="0 0 38 42" fill="none" aria-hidden="true"><path d="M19 3 35 12v18L19 39 3 30V12L19 3Z" stroke="currentColor" stroke-width="1.1"/><path d="m3 12 16 9 16-9M19 21v18M11 8v17l16 9M27 8v17l-16 9" stroke="currentColor" stroke-width="1.1"/></svg>
+  <span><span class="brand-word">ONYUL<span class="brand-dot">.</span></span><span class="brand-caption">HEALTHCARE GEO STUDIO</span></span>
+</a>

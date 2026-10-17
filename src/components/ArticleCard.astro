@@ -1,0 +1,12 @@
+---
+import Icon from './Icon.astro';
+import type { CollectionEntry } from 'astro:content';
+interface Props { post: CollectionEntry<'insights'>; featured?: boolean; }
+const { post, featured = false } = Astro.props;
+---
+<a href={`/insights/${post.id}/`} class:list={['article-card', { 'article-featured': featured }]}>
+  <div class="article-top"><span class="category">{post.data.category}</span><Icon name="diagonal" size={22} /></div>
+  {featured && <div class="article-visual" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="orbit orbit-three"></span><span class="orbit-core">AI</span><span class="orbit-label">CONTEXT IS THE NEW KEYWORD.</span></div>}
+  <h3>{post.data.title}</h3><p>{post.data.description}</p>
+  <div class="article-bottom"><time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().slice(0,10).replaceAll('-', '.')}</time><span>{post.data.readTime}분 읽기</span></div>
+</a>

@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../config/site';
+---
+<Layout title="상담 및 협업 문의 | 온율 ONYUL" description="개인의원의 GEO/AIO 콘텐츠 전략과 광고대행사의 콘텐츠 제작 협업을 이야기해 보세요. 문의 목적과 필요한 서비스를 정리할 수 있습니다.">
+  <section class="page-heading"><div class="container"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><Icon name="chevron" size={12} /><span aria-current="page">상담 및 협업 문의</span></nav><span class="eyebrow">LET’S START A CONVERSATION</span><h1>좋은 콘텐츠의 시작은,<br />좋은 대화에서.</h1><p>병원의 고민도, 대행사의 새로운 프로젝트도 좋습니다.<br />지금 필요한 콘텐츠에 대해 들려주세요.</p></div></section>
+  <section class="section"><div class="container contact-layout"><aside class="contact-aside"><span class="serif">Your expertise.<br /><em>Our next conversation.</em></span><p>진료 분야와 콘텐츠 운영 상황을 알려주시면<br />더 구체적인 협업 방향을 함께 고민할 수 있습니다.</p><div class="contact-info"><h2>이런 이야기를 나눌 수 있어요</h2><p>병원 콘텐츠 방향 · 블로그 및 홈페이지 원고<br />GEO/AIO 정보 구조 · 대행사 파트너십</p></div>{site.email && <div class="contact-info"><h2>이메일 문의</h2><a href={`mailto:${site.email}`}><Icon name="mail" size={17} />{site.email}</a></div>}{site.phone && <div class="contact-info"><h2>전화 문의</h2><a href={`tel:${site.phone.replaceAll(/[^+\d]/g,'')}`}><Icon name="phone" size={17} />{site.phone}</a></div>}<ol class="contact-process"><li><span>01</span>필요한 서비스와 고민을 정리합니다.</li><li><span>02</span>프로젝트 범위와 일정을 이야기합니다.</li><li><span>03</span>협업 방식과 산출물을 함께 정합니다.</li></ol><div class="practice-banner">연습용 문의 페이지입니다. 실제 환자정보나 민감한 건강정보는 입력하지 말아 주세요.</div></aside>
+    <div><form id="contact-form" class="contact-form" data-email={site.email}>
+      <div class="form-top"><h2>프로젝트 이야기하기</h2><span>* 필수 항목</span></div>
+      <fieldset style="border:0;padding:0;margin:0 0 23px"><legend class="field-label" style="margin-bottom:10px">어떤 파트너이신가요? *</legend><div class="type-options"><label class="type-option"><input type="radio" name="type" value="병원 · 개인의원" checked /><span>병원 · 개인의원</span></label><label class="type-option"><input type="radio" name="type" value="광고대행사 · 기업" /><span>광고대행사 · 기업</span></label></div></fieldset>
+      <div class="form-row"><div class="form-field"><label for="contact-name">성함 <span>*</span></label><input id="contact-name" name="name" autocomplete="name" placeholder="성함을 입력해 주세요" required maxlength="60" /></div><div class="form-field"><label for="contact-company">병원명 / 회사명 <span>*</span></label><input id="contact-company" name="company" autocomplete="organization" placeholder="소속을 입력해 주세요" required maxlength="100" /></div></div>
+      <div class="form-field"><label for="contact-email">회신받을 이메일 <span>*</span></label><input id="contact-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="답변받으실 이메일 주소" required maxlength="150" /></div>
+      <div class="form-field"><label for="contact-service">관심 서비스 <span>*</span></label><select id="contact-service" name="service" required><option value="">필요한 서비스를 선택해 주세요</option><option value="1">병원 GEO/AIO 전략 수립</option><option value="2">AI 검색 친화형 콘텐츠 기획</option><option value="3">병원 전문 블로그 원고 제작</option><option value="4">병원 홈페이지 콘텐츠 최적화</option><option value="5">검색 및 AI 인용 현황 점검</option><option value="6">광고대행사 콘텐츠 제작 협업</option><option value="7">기타 · 함께 상의하고 싶어요</option></select></div>
+      <div class="form-field"><label for="contact-message">문의 내용 <span>*</span></label><textarea id="contact-message" name="message" rows="5" minlength="10" maxlength="3000" required placeholder="진료 분야, 운영 중인 채널, 필요한 콘텐츠와 희망 일정 등을 알려주세요. (10자 이상)"></textarea></div>
+      <div class="honeypot" aria-hidden="true"><label for="contact-website">Website</label><input id="contact-website" name="website" tabindex="-1" autocomplete="off" /></div>
+      <label class="consent-row"><input type="checkbox" name="consent" required /><span><a href="/privacy/" target="_blank" rel="noopener">개인정보 처리 안내 (새 창)</a>를 확인했으며, 문의 내용 정리에 동의합니다. *</span></label>
+      <button type="submit" class="button button-primary form-submit">문의 내용 정리하기 <Icon name="diagonal" size={19} /></button>
+      <p class="form-demo-note">{site.email ? '입력 내용은 서버에 저장되지 않습니다. 내용을 확인한 뒤 이메일 앱을 열어 직접 전송할 수 있습니다.' : '현재 데모 모드입니다. 입력한 내용은 서버로 전송되거나 저장되지 않으며, 정리 후 복사하거나 파일로 보관할 수 있습니다.'}</p>
+      <noscript><p class="practice-banner">문의 내용 정리 기능은 JavaScript가 필요합니다. {site.email ? `이메일 ${site.email}로 직접 문의해 주세요.` : '이 페이지는 연습용이며 현재 수신 연락처가 설정되지 않았습니다.'}</p></noscript>
+    </form>
+    <section class="form-result" id="form-result" hidden aria-labelledby="result-title" tabindex="-1"><h3 id="result-title">문의 내용을 정리했습니다.</h3><p>{site.email ? '이메일 앱에서 내용을 확인하고 전송해 주세요. 이 사이트에서 문의가 자동 전송되지는 않습니다.' : '아직 외부로 전송되지 않았습니다. 내용을 복사하거나 파일로 보관해 주세요. 수신 연락처가 설정되면 이메일로 문의할 수 있습니다.'}</p><div class="result-actions">{site.email && <a id="email-inquiry" class="button button-outline" href={`mailto:${site.email}`}><Icon name="mail" size={16} />이메일 앱 열기</a>}<button id="copy-inquiry" class="button button-outline" type="button"><Icon name="copy" size={16} />내용 복사</button><button id="download-inquiry" class="button button-outline" type="button"><Icon name="download" size={16} />파일로 저장</button></div><p class="result-status" role="status"></p></section>
+    </div>
+  </div></section>
+</Layout>
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const result = document.querySelector<HTMLElement>('#form-result');
+  const status = document.querySelector<HTMLElement>('.result-status');
+  let inquiry = '';
+  const params = new URLSearchParams(location.search);
+  const service = form?.querySelector<HTMLSelectElement>('[name="service"]');
+  const selectedService = params.get('service');
+  if (service && selectedService && /^[1-7]$/.test(selectedService)) service.value = selectedService;
+  if (params.get('type') === 'agency') { const radio = form?.querySelector<HTMLInputElement>('[name="type"][value="광고대행사 · 기업"]'); if (radio) radio.checked = true; if (service) service.value = '6'; }
+  form?.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const data = new FormData(form);
+    if (data.get('website')) return;
+    inquiry = `[온율 상담 및 협업 문의]\n\n문의 유형: ${data.get('type')}\n성함: ${String(data.get('name')).trim()}\n병원명 / 회사명: ${String(data.get('company')).trim()}\n회신 이메일: ${String(data.get('email')).trim()}\n관심 서비스: ${service?.selectedOptions[0]?.textContent || ''}\n\n문의 내용\n${String(data.get('message')).trim()}`;
+    const mailLink = document.querySelector<HTMLAnchorElement>('#email-inquiry');
+    if (mailLink && form.dataset.email) mailLink.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`[온율 문의] ${data.get('company')}`)}&body=${encodeURIComponent(inquiry)}`;
+    if (result) { result.hidden = false; result.focus({preventScroll:true}); result.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'}); }
+    if (status) status.textContent = '';
+  });
+  form?.addEventListener('input', () => { if (result) result.hidden = true; inquiry = ''; });
+  document.querySelector('#copy-inquiry')?.addEventListener('click', async () => {
+    if (!inquiry) return;
+    try { await navigator.clipboard.writeText(inquiry); if (status) status.textContent = '문의 내용을 복사했습니다.'; }
+    catch { if (status) status.textContent = '이 브라우저에서는 복사를 사용할 수 없습니다. 파일로 저장해 주세요.'; }
+  });
+  document.querySelector('#download-inquiry')?.addEventListener('click', () => {
+    if (!inquiry) return;
+    const url = URL.createObjectURL(new Blob(['\uFEFF' + inquiry],{type:'text/plain;charset=utf-8'}));
+    const link = document.createElement('a'); link.href = url; link.download = '온율-상담문의.txt'; link.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000); if (status) status.textContent = '문의 파일을 저장했습니다. 외부로 전송되지는 않았습니다.';
+  });
+</script>

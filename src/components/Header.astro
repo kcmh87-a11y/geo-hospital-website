@@ -1,0 +1,31 @@
+---
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
+import { navigation } from '../config/site';
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <Brand />
+    <nav class="desktop-nav" aria-label="주요 메뉴">
+      {navigation.map(item => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <a href="/contact/" class="header-contact">협업 문의하기 <Icon name="diagonal" size={16} /></a>
+    <button class="menu-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu" /></button>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="모바일 메뉴" hidden>
+    {navigation.map(item => <a href={item.href}>{item.label}<Icon name="diagonal" size={18} /></a>)}
+    <a href="/contact/">상담 및 협업 문의<Icon name="diagonal" size={18} /></a>
+  </nav>
+</header>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  function closeMenu() { toggle?.setAttribute('aria-expanded', 'false'); toggle?.setAttribute('aria-label', '메뉴 열기'); if (menu) menu.hidden = true; }
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기'); if (menu) menu.hidden = !open;
+  });
+  menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') { const wasOpen = toggle?.getAttribute('aria-expanded') === 'true'; closeMenu(); if (wasOpen) toggle?.focus(); } });
+  window.matchMedia('(min-width: 901px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+</script>
