@@ -11,7 +11,10 @@
     "check": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro check",
     "build": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0",
-    "test": "playwright test"
+    "test": "playwright test",
+    "preview:export": "node scripts/export-preview.mjs",
+    "preview:capture": "node scripts/capture-preview.mjs",
+    "preview:refresh": "npm run build && npm run preview:export && npm run preview:capture"
   },
   "dependencies": {
     "@fontsource-variable/noto-sans-kr": "5.3.1",

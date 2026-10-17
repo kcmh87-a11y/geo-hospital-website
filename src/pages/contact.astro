@@ -2,11 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../config/site';
+import { getCollection } from 'astro:content';
+const articleContexts = (await getCollection('insights')).map(post=>({id:post.id,title:post.data.title,serviceId:post.data.serviceId}));
 ---
 <Layout title="상담 및 협업 문의 | 온율 ONYUL" description="개인의원의 GEO/AIO 콘텐츠 전략과 광고대행사의 콘텐츠 제작 협업을 이야기해 보세요. 문의 목적과 필요한 서비스를 정리할 수 있습니다.">
-  <section class="page-heading"><div class="container"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><Icon name="chevron" size={12} /><span aria-current="page">상담 및 협업 문의</span></nav><span class="eyebrow">LET’S START A CONVERSATION</span><h1>좋은 콘텐츠의 시작은,<br />좋은 대화에서.</h1><p>병원의 고민도, 대행사의 새로운 프로젝트도 좋습니다.<br />지금 필요한 콘텐츠에 대해 들려주세요.</p></div></section>
-  <section class="section"><div class="container contact-layout"><aside class="contact-aside"><span class="serif">Your expertise.<br /><em>Our next conversation.</em></span><p>진료 분야와 콘텐츠 운영 상황을 알려주시면<br />더 구체적인 협업 방향을 함께 고민할 수 있습니다.</p><div class="contact-info"><h2>이런 이야기를 나눌 수 있어요</h2><p>병원 콘텐츠 방향 · 블로그 및 홈페이지 원고<br />GEO/AIO 정보 구조 · 대행사 파트너십</p></div>{site.email && <div class="contact-info"><h2>이메일 문의</h2><a href={`mailto:${site.email}`}><Icon name="mail" size={17} />{site.email}</a></div>}{site.phone && <div class="contact-info"><h2>전화 문의</h2><a href={`tel:${site.phone.replaceAll(/[^+\d]/g,'')}`}><Icon name="phone" size={17} />{site.phone}</a></div>}<ol class="contact-process"><li><span>01</span>필요한 서비스와 고민을 정리합니다.</li><li><span>02</span>프로젝트 범위와 일정을 이야기합니다.</li><li><span>03</span>협업 방식과 산출물을 함께 정합니다.</li></ol><div class="practice-banner">연습용 문의 페이지입니다. 실제 환자정보나 민감한 건강정보는 입력하지 말아 주세요.</div></aside>
-    <div><form id="contact-form" class="contact-form" data-email={site.email}>
+  <section class="page-heading"><div class="container"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><Icon name="chevron" size={12} /><span aria-current="page">상담 및 협업 문의</span></nav><span class="eyebrow">LET’S START A CONVERSATION</span><h1>글에서 시작한 신뢰가,<br />함께하는 일로 이어지도록.</h1><p>칼럼에서 공감한 생각이나 콘텐츠를 함께 만들고 싶은 이유를 들려주세요.<br />병원과 대행사의 고민을 차분히 듣고, 협업 방향을 이야기하겠습니다.</p></div></section>
+  <section class="section"><div class="container contact-layout"><aside class="contact-aside"><span class="serif">Your questions.<br /><em>A shared direction.</em></span><p>진료 분야와 콘텐츠 운영 상황을 알려주시면<br />더 구체적인 협업 방향을 함께 고민할 수 있습니다.</p><div class="contact-info"><h2>이런 이야기를 나눌 수 있어요</h2><p>병원 콘텐츠 방향 · 블로그 및 홈페이지 원고<br />GEO/AIO 정보 구조 · 대행사 파트너십</p></div>{site.email && <div class="contact-info"><h2>이메일 문의</h2><a href={`mailto:${site.email}`}><Icon name="mail" size={17} />{site.email}</a></div>}{site.phone && <div class="contact-info"><h2>전화 문의</h2><a href={`tel:${site.phone.replaceAll(/[^+\d]/g,'')}`}><Icon name="phone" size={17} />{site.phone}</a></div>}<ol class="contact-process"><li><span>01</span>필요한 서비스와 고민을 정리합니다.</li><li><span>02</span>프로젝트 범위와 일정을 이야기합니다.</li><li><span>03</span>협업 방식과 산출물을 함께 정합니다.</li></ol><div class="practice-banner">연습용 문의 페이지입니다. 실제 환자정보나 민감한 건강정보는 입력하지 말아 주세요.</div></aside>
+    <div><form id="contact-form" class="contact-form" data-email={site.email} data-articles={JSON.stringify(articleContexts)}>
+      <div class="inquiry-context" id="inquiry-context" hidden><span>이 칼럼에서 이야기를 이어갑니다</span><strong id="inquiry-context-title"></strong><p>읽으신 글과 연결되는 질문이나 협업 아이디어를 자유롭게 적어주세요.</p></div>
       <div class="form-top"><h2>프로젝트 이야기하기</h2><span>* 필수 항목</span></div>
       <fieldset style="border:0;padding:0;margin:0 0 23px"><legend class="field-label" style="margin-bottom:10px">어떤 파트너이신가요? *</legend><div class="type-options"><label class="type-option"><input type="radio" name="type" value="병원 · 개인의원" checked /><span>병원 · 개인의원</span></label><label class="type-option"><input type="radio" name="type" value="광고대행사 · 기업" /><span>광고대행사 · 기업</span></label></div></fieldset>
       <div class="form-row"><div class="form-field"><label for="contact-name">성함 <span>*</span></label><input id="contact-name" name="name" autocomplete="name" placeholder="성함을 입력해 주세요" required maxlength="60" /></div><div class="form-field"><label for="contact-company">병원명 / 회사명 <span>*</span></label><input id="contact-company" name="company" autocomplete="organization" placeholder="소속을 입력해 주세요" required maxlength="100" /></div></div>
@@ -31,6 +34,15 @@ import { site } from '../config/site';
   const params = new URLSearchParams(location.search);
   const service = form?.querySelector<HTMLSelectElement>('[name="service"]');
   const selectedService = params.get('service');
+  const articleContexts: {id:string;title:string;serviceId:number}[] = JSON.parse(form?.dataset.articles || '[]');
+  const articleContext = articleContexts.find(article=>article.id===params.get('article'));
+  if (articleContext) {
+    const context = document.querySelector<HTMLElement>('#inquiry-context');
+    const title = document.querySelector<HTMLElement>('#inquiry-context-title');
+    if (context) context.hidden = false;
+    if (title) title.textContent = articleContext.title;
+    if (service) service.value = String(articleContext.serviceId);
+  }
   if (service && selectedService && /^[1-7]$/.test(selectedService)) service.value = selectedService;
   if (params.get('type') === 'agency') { const radio = form?.querySelector<HTMLInputElement>('[name="type"][value="광고대행사 · 기업"]'); if (radio) radio.checked = true; if (service) service.value = '6'; }
   form?.addEventListener('submit', event => {
@@ -38,7 +50,7 @@ import { site } from '../config/site';
     if (!form.reportValidity()) return;
     const data = new FormData(form);
     if (data.get('website')) return;
-    inquiry = `[온율 상담 및 협업 문의]\n\n문의 유형: ${data.get('type')}\n성함: ${String(data.get('name')).trim()}\n병원명 / 회사명: ${String(data.get('company')).trim()}\n회신 이메일: ${String(data.get('email')).trim()}\n관심 서비스: ${service?.selectedOptions[0]?.textContent || ''}\n\n문의 내용\n${String(data.get('message')).trim()}`;
+    inquiry = `[온율 상담 및 협업 문의]\n\n문의 유형: ${data.get('type')}\n성함: ${String(data.get('name')).trim()}\n병원명 / 회사명: ${String(data.get('company')).trim()}\n회신 이메일: ${String(data.get('email')).trim()}\n관심 서비스: ${service?.selectedOptions[0]?.textContent || ''}${articleContext ? `\n읽은 칼럼: ${articleContext.title}` : ''}\n\n문의 내용\n${String(data.get('message')).trim()}`;
     const mailLink = document.querySelector<HTMLAnchorElement>('#email-inquiry');
     if (mailLink && form.dataset.email) mailLink.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`[온율 문의] ${data.get('company')}`)}&body=${encodeURIComponent(inquiry)}`;
     if (result) { result.hidden = false; result.focus({preventScroll:true}); result.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'}); }

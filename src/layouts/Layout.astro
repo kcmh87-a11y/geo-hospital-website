@@ -5,11 +5,11 @@ import '@fontsource/cormorant-garamond/500-italic.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../config/site';
+import { site, personSchema } from '../config/site';
 interface Props { title?: string; description?: string; article?: boolean; schema?: Record<string, unknown>; noindex?: boolean; }
-const { title = '온율 ONYUL — 병원 GEO/AIO 콘텐츠 전략 스튜디오', description = site.description, article = false, schema, noindex = false } = Astro.props;
+const { title = '온율 ONYUL — GEO/AIO 병원 마케팅 전문가의 기록', description = site.description, article = false, schema, noindex = false } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
-const baseSchema = { '@context': 'https://schema.org', '@type': 'ProfessionalService', name: '온율 ONYUL', description: site.description, ...(Astro.site ? { url: Astro.site.href } : {}), areaServed: { '@type': 'Country', name: '대한민국' }, knowsAbout: ['GEO', 'AIO', '병원 콘텐츠 전략', '의료정보 콘텐츠'], ...(site.email ? { email: site.email } : {}) };
+const baseSchema = { '@context': 'https://schema.org', '@type': 'WebSite', name: '온율 ONYUL — 개인 전문가의 기록', description: site.description, inLanguage: 'ko-KR', publisher: personSchema, ...(Astro.site ? { url: Astro.site.href } : {}) };
 ---
 <!doctype html>
 <html lang="ko">

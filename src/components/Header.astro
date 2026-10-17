@@ -27,5 +27,5 @@ import { navigation } from '../config/site';
   });
   menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
   document.addEventListener('keydown', event => { if (event.key === 'Escape') { const wasOpen = toggle?.getAttribute('aria-expanded') === 'true'; closeMenu(); if (wasOpen) toggle?.focus(); } });
-  window.matchMedia('(min-width: 901px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+  window.matchMedia('(min-width: 1121px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
 </script>

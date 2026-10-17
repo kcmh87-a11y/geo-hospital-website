@@ -1,0 +1,13 @@
+---
+import { site, authorName } from '../config/site';
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+---
+<div class:list={['profile-portrait', { 'profile-portrait-compact': compact }]}>
+  {site.profile.image ? <img src={site.profile.image} width="520" height="640" alt={`${authorName} 프로필 사진`} loading="lazy" /> : <div class="portrait-placeholder">
+    <svg class="portrait-line" viewBox="0 0 240 280" fill="none" aria-hidden="true"><path d="M30 257V124a90 90 0 0 1 180 0v133" stroke="currentColor" stroke-width=".8"/><path d="M57 257v-62a63 63 0 1 1 126 0v62M80 105a40 40 0 1 0 80 0 40 40 0 0 0-80 0Z" stroke="currentColor" stroke-width="1"/><path d="M12 257h216M120 16v15M22 124h15M203 124h15" stroke="currentColor" stroke-width=".8"/></svg>
+    <span class="portrait-monogram serif" aria-hidden="true">O.</span>
+    {!compact && <div class="portrait-placeholder-caption"><span>프로필 사진 영역</span><small>실제 사진을 위한 자리입니다.</small></div>}
+    {compact && <span class="sr-only">프로필 사진을 위한 빈 자리</span>}
+  </div>}
+</div>

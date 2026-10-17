@@ -7,10 +7,11 @@ test('홈의 서비스·프로젝트 동선과 로컬 이미지가 작동한다'
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('AI가 이해하는');
-  await page.getByRole('link', { name: 'GEO 마케팅 알아보기' }).click();
-  await expect(page).toHaveURL(/#services$/);
+  await page.getByRole('link', { name: '전문 칼럼 읽기', exact: true }).click();
+  await expect(page).toHaveURL(/\/insights\/$/);
+  await page.goto('/#services');
   await expect(page.locator('.service-card')).toHaveCount(6);
-  await page.locator('.service-card').first().click();
+  await page.locator('.service-card').first().getByRole('link', { name: '이 분야 협업 문의' }).click();
   await expect(page.locator('#contact-service')).toHaveValue('1');
   await page.goto('/');
   await page.locator('.project-card').first().click();
@@ -45,7 +46,7 @@ test('모바일 메뉴는 키보드로 닫히고 선택한 섹션으로 이동�
   await expect(page.locator('#mobile-nav')).toBeHidden();
   await expect(toggle).toBeFocused();
   await toggle.click();
-  await page.locator('#mobile-nav').getByRole('link', { name: '전문 서비스' }).click();
+  await page.locator('#mobile-nav').getByRole('link', { name: '전문 분야', exact: true }).click();
   await expect(page).toHaveURL(/#services$/);
   await expect(page.locator('#mobile-nav')).toBeHidden();
 });
@@ -95,11 +96,58 @@ test('문의 내용 복사를 사용할 수 있다', async ({ page, context }) =
 test('360px부터 데스크톱까지 가로 넘침 없이 이미지를 표시한다', async ({ page }) => {
   for (const width of [360, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of ['/', '/contact/', '/insights/', '/projects/orthopedic-care/']) {
+    for (const path of ['/', '/contact/', '/insights/', '/insights/what-is-hospital-geo/', '/projects/orthopedic-care/']) {
       await page.goto(path);
       await page.evaluate(() => document.fonts.ready);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${width}px ${path}`).toBe(true);
     }
+  }
+});
+
+test('칼럼에서 작성자·전문 분야를 살펴보고 읽은 글과 연결한 문의를 저장한다', async ({ page }) => {
+  await page.goto('/insights/what-is-hospital-geo/');
+  await expect(page.locator('.author-card')).toContainText('이 글을 쓴 온율입니다');
+  await expect(page.locator('.article-key-points li')).toHaveCount(3);
+  await expect(page.locator('.related-reading .article-card')).toHaveCount(2);
+  const schema = JSON.parse(await page.locator('script[type="application/ld+json"]').innerText());
+  expect(schema.author['@type']).toBe('Person');
+  await page.getByRole('link', { name: '관련 전문 분야 살펴보기' }).click();
+  await expect(page).toHaveURL(/#service-1$/);
+  await expect(page.locator('#service-1 h3')).toHaveText('병원 GEO/AIO 전략 수립');
+  await page.goto('/insights/what-is-hospital-geo/');
+  await page.getByRole('link', { name: '이 주제로 협업 문의', exact: true }).click();
+  await expect(page.locator('#inquiry-context')).toBeVisible();
+  await expect(page.locator('#inquiry-context-title')).toHaveText('AI는 어떤 병원을 이해할 수 있을까요?');
+  await expect(page.locator('#contact-service')).toHaveValue('1');
+  await page.locator('#contact-name').fill('칼럼 독자');
+  await page.locator('#contact-company').fill('가상 병원');
+  await page.locator('#contact-email').fill('reader@example.test');
+  await page.locator('#contact-message').fill('칼럼을 읽고 병원 콘텐츠의 정보 구조를 함께 고민하고 싶습니다.');
+  await page.getByRole('checkbox').check();
+  await page.getByRole('button', { name: '문의 내용 정리하기' }).click();
+  const downloadEvent = page.waitForEvent('download');
+  await page.getByRole('button', { name: '파일로 저장' }).click();
+  const download = await downloadEvent;
+  expect(await readFile((await download.path())!, 'utf8')).toContain('읽은 칼럼: AI는 어떤 병원을 이해할 수 있을까요?');
+  await page.goto('/contact/?article=unknown');
+  await expect(page.locator('#inquiry-context')).toBeHidden();
+});
+
+test('PC와 모바일의 본문·설명·메뉴·버튼에 충분한 글자 크기를 유지한다', async ({ page }) => {
+  for (const width of [360, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await expect(page.locator('.profile-portrait').first()).toBeVisible();
+    await expect(page.locator('.profile-name-note')).toContainText('실제 이름');
+    for (const selector of ['.hero-description', '.about-content > p:not(.profile-name-note)', '.service-card > p', '.project-card > p', '.article-card > p']) {
+      const sizes = await page.locator(selector).evaluateAll(elements=>elements.map(el=>parseFloat(getComputedStyle(el).fontSize)));
+      expect(sizes.every(size=>size>=17), `${width}px ${selector}: ${sizes}`).toBe(true);
+    }
+    for (const selector of ['.hero-actions .button', '.hero-actions .text-link', '.service-card-links a']) {
+      expect(await page.locator(selector).evaluateAll(elements=>elements.every(el=>parseFloat(getComputedStyle(el).fontSize)>=16))).toBe(true);
+    }
+    await page.goto('/insights/what-is-hospital-geo/');
+    expect(await page.locator('.prose').evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBe(18);
   }
 });
 
